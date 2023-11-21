@@ -1,4 +1,4 @@
-// Tableau images + texte carrousel
+// Tableau images + texte carrousel //
 
 const slides = [
 	{
@@ -19,33 +19,56 @@ const slides = [
 	}
 ]
 
-let i = 0;
-
 // Récupérer les éléments du DOM //
 
-const dots = document.getElementsByClassName('dot');
+const dotsContainer = document.querySelector('.dots');
 const arrowLeft = document.querySelector("#banner .arrow_left")
 const arrowRight = document.querySelector("#banner .arrow_right")
 
 // Ajout des event listeners sur les flèches //
 
-arrowLeft.addEventListener("click", function(){
+arrowLeft.addEventListener("click", function () {
 	changeSlide(-1)
 });
-arrowRight.addEventListener("click", function(){
+arrowRight.addEventListener("click", function () {
 	changeSlide(1)
 });
 
 // Fonction pour le défilement des slides //
+
+let i = 0;
 
 function changeSlide(sens) {
 	i += sens;
 	if (i > slides.length - 1)
 		i = 0;
 	if (i < 0)
-	i = slides.length - 1;
+		i = slides.length - 1;
 	document.getElementById("banner-img").src = "./assets/images/slideshow/" + slides[i].image;
 	document.getElementById("banner-txt").innerHTML = slides[i].tagLine;
+	updateDot(i);
 }
 
+// Ajout des bullet points //
 
+for (let j = 0; j < slides.length; j++) {
+	const dot = document.createElement("div");
+	dot.classList.add("dot");
+	dotsContainer.appendChild(dot);
+}
+
+const dots = dotsContainer.querySelectorAll(".dot");
+
+// Affichage du bon bullet point en fonction de l'image //
+
+dots[0].classList.add("dot_selected");
+
+function updateDot (place) {
+	dots.forEach((dot, index) => {
+	  if (index === place) {
+		dot.classList.add("dot_selected");
+	  } else {
+		dot.classList.remove("dot_selected");
+	  }
+	});
+  }
